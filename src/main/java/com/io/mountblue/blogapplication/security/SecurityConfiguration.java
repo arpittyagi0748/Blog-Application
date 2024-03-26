@@ -39,7 +39,9 @@ public class SecurityConfiguration {
 //                               .requestMatchers("/**").hasAnyRole("ADMIN","AUTHOR")
 //                                .requestMatchers("/filterByAuthorAndTag").permitAll()
 //                                .requestMatchers("/updateblog/**").permitAll()
-                                .requestMatchers("/deletePost/**").permitAll()
+                                .requestMatchers("/deletePost/**").hasAnyRole("ADMIN","AUTHOR")
+                                  .requestMatchers("/filterByAuthorAndTag/**").permitAll()
+                                
                                 .requestMatchers("/sort").permitAll()
                                 .requestMatchers("/myblog/").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/myblog/processPost").permitAll()
