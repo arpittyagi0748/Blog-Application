@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>New Post</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 46px;
+        }
+        input[type="text"], textarea {
+            width: 50%;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        textarea {
+            height: 500px;
+        }
+        button {
+            padding: 15px 30px;
+            border-radius: 8px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>New/Edit Post</h1>
+    <form th:action="@{/processPost}" th:object="${post}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <input type="text" th:field="*{title}" placeholder="Title"><br>
+        <input type="text" th:field="${post.tags}" placeholder="Tags (comma-separated)" th:value="${tagAsString}"><br>
+        <textarea th:field="*{content}" placeholder="Content"></textarea><br>
+        <button type="submit" name="action" value="Draft">Draft</button>
+        <button type="submit" name="action" value="Publish">Publish</button>
+    </form>
+</div>
+</body>
+</html>

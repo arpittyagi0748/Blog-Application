@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Comment</title>
+</head>
+<body>
+<h1>Update Comment</h1>
+<form th:action="@{/updateComment/{commentId}(commentId=${comment.id})}" method="post">
+    <input type="hidden" name="postId" th:value="${comment.postId.id}">
+    <textarea name="comment" rows="5" cols="50" th:text="${comment.comment}"></textarea><br>
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog Application</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .container {
+            width: 45%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            cursor: pointer;
+
+            max-height: 100px;
+            overflow: hidden;
+        }
+
+        .container h2 {
+            margin-bottom: 10px;
+
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .container p {
+            margin-bottom: 10px;
+
+            max-height: 80px;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .search-area {
+            margin-bottom: 20px;
+            height: 50px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .dropdown-menu {
+            margin-bottom: 20px;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .sidebar {
+            width: 10%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin-right: 20px;
+            background-color: #f2f2f2;
+        }
+
+        .sidebar h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .sidebar form {
+          margin-top:10px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .sidebar button {
+        margin-top:20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar button:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .pagination li {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .pagination li.active a {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .pagination li a {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .pagination li a:hover {
+            background-color: #f2f2f2;
+        }
+        .login-button {
+
+            top: 10px;
+            right: 10px;
+        }
+
+        .login-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: black;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+
+
+
+        .create-blog-button {
+
+            top: 50px;
+            right: 10px;
+        }
+
+        .create-blog-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: black;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+
+        .top-right-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .top-right-buttons > * {
+            margin-left: 10px;
+        }
+
+
+
+
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            .menu-container {
+                flex-direction: column;
+            }
+            .menu-container .search-area {
+                width: 100%;
+            }
+            .menu-container .dropdown-menu {
+                margin-top: 20px;
+            }
+            #content {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <div class="login-button">
+        <a th:href="@{/customlogin}">Login</a>
+    </div>
+    <div class="login-button">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+    <div class="create-blog-button">
+        <a href="/newpost">Create New Blog</a>
+    </div>
+
+
+    <h1>My Blog Application</h1>
+
+    <div class="menu-container">
+        <div class="search-area">
+            <form th:action="@{/sort}" method="get">
+                <input type="text" name="search" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="dropdown-menu">
+            <form th:action="@{/sort}" method="get" id="sortForm">
+                <select name="sort" onchange="document.getElementById('sortForm').submit();">
+                    <option value="">Sort</option>
+                    <option value="published_at">Sort by Published Date</option>
+                    <option value="alphabetical">Sort Alphabetically by Title</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div class="flex-container">
+        <div th:each="post : ${posts}" class="container">
+            <a th:href="@{/post/{id}(id=${post.id})}">
+                <h2>
+                    <span th:if="${#strings.length(post.title) &gt; 20}"
+                          th:text="${#strings.substring(post.title, 0, 20) + '...'}"
+                          th:else="${post.title}"></span>
+                    <span th:unless="${#strings.length(post.title) &gt; 20}"
+                          th:text="${post.title}"></span>
+                </h2>
+                <p>
+                    <span th:text="${post.author.name}"></span>,
+                    <span th:text="${#temporals.format(post.publishedAt, 'dd MMM yyyy HH:mm')}"></span>
+                </p>
+                <p>
+                    <span th:if="${#strings.length(post.excerpt) &gt; 20}"
+                          th:text="${#strings.substring(post.excerpt, 0, 20) + '...'}"
+                          th:else="${post.excerpt}"></span>
+                    <span th:unless="${#strings.length(post.excerpt) &gt; 20}"
+                          th:text="${post.excerpt}"></span>
+                </p>
+            </a>
+        </div>
+    </div>
+    <div class="pagination">
+        <ul>
+            <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                th:class="${pageNum == currentPage ? 'active' : ''}">
+                <a th:href="@{/sort(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+<div class="sidebar">
+    <form th:action="@{/filterByAuthorAndTag}" method="get">
+        <h4>Filter by Authors</h4>
+        <th:block th:each="author : ${authors}">
+            <label><input type="checkbox" name="authors" th:value="${author}" th:text="${author}"> ${author}</label><br>
+        </th:block>
+        <h4>Filter by Tags</h4>
+        <th:block th:each="tag : ${tags}">
+            <label><input type="checkbox" name="tags" th:value="${tag}" th:text="${tag}"> ${tag}</label><br>
+        </th:block>
+        <h4>Filter by Date</h4>
+        <label for="startDate">From:</label>
+        <input type="date" id="startDate" name="startDate">
+        <label for="endDate">To:</label>
+        <input type="date" id="endDate" name="endDate">
+        <button type="submit">Apply Filters</button>
+    </form>
+</div>
+
+</body>
+</html>
+
