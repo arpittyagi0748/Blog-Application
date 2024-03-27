@@ -280,10 +280,12 @@
         <ul>
             <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                 th:class="${pageNum == currentPage ? 'active' : ''}">
-                <a th:href="@{/sort(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+                <a th:href="${sortOption != null} ? @{/sort(page=${pageNum}, sort=${sortOption})} : @{/(page=${pageNum})}" th:text="${pageNum + 1}"></a>
             </li>
         </ul>
     </div>
+
+
 
 
 </div>

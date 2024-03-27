@@ -143,8 +143,9 @@ public class PostController {
          model.addAttribute("posts", paginatedPosts);
          model.addAttribute("totalPages", Math.ceil((double) posts.size() / pageSize));
          model.addAttribute("currentPage", currentPage);
+         model.addAttribute("sortOption", sortOption);
 
-         return "home";
+        return "home";
     }
 
 
